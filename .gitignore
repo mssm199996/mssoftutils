@@ -1,0 +1,10 @@
+# IDE files
+/.idea
+
+# Build files
+/target
+
+# Runtime files
+/updateError.log
+/updateOutput.log
+
