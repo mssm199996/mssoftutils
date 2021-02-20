@@ -5,6 +5,7 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import msdatabaseutils.ICompteValidator;
 import msdatabaseutils.IDAO;
+import mssoftutils.api.dto.CompteResponseDto;
 import mssoftutils.api.dto.LoginDto;
 
 import java.time.LocalDate;
@@ -50,10 +51,20 @@ public abstract class ApiConfig {
             ICompte compte = this.iCompteValidator.isAccountValid(loginDto.getUsername(), loginDto.getPassword());
 
             if (compte != null) {
-                context.json(compte);
-
                 compte.setDateDerniereConnexion(LocalDate.now());
                 compte.setHeureDerniereConnexion(LocalTime.now());
+
+                CompteResponseDto compteResponseDto = new CompteResponseDto();
+                compteResponseDto.setId(compte.getId());
+                compteResponseDto.setAdmin(compte.isAdmin());
+                compteResponseDto.setUsername(compte.getUsername());
+                compteResponseDto.setPassword(compte.getPassword());
+                compteResponseDto.formatDateDerniereConnexion(compte.getDateDerniereConnexion());
+                compteResponseDto.formatHeureDerniereConnexion(compte.getHeureDerniereConnexion());
+
+                compte.getDroits().forEach(droit -> compteResponseDto.getDroits().put(droit.getId(), droit.getRepresentation()));
+
+                context.json(compteResponseDto);
 
                 this.compteDao.updateEntity(compte);
             } else
