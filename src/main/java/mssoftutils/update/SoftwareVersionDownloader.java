@@ -59,7 +59,7 @@ public class SoftwareVersionDownloader {
 	}
 
 	public static enum Software {
-		MSMARKET("MS MARKET"), MSMDOCSOFFICE("MS DOCS OFFICE");
+		MSMARKET("MS MARKET"), MSMDOCSOFFICE("MS DOCS OFFICE"), KAFILELYATIM("KAFIL EL YATIM");
 
 		private String dropBoxRootFolder;
 
